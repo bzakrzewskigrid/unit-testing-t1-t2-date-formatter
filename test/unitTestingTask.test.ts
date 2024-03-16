@@ -118,6 +118,28 @@ describe('unitTestingTask test suite', () => {
     expect(actual).toBe(expected);
   });
 
+  it.each([
+    {
+      format: 'ISODate',
+      expected: '2020-01-13',
+    },
+    {
+      format: 'ISOTime',
+      expected: '03:05:18',
+    },
+    {
+      format: 'ISODateTime',
+      expected: '2020-01-13T03:05:18',
+    },
+    {
+      format: 'ISODateTimeTZ',
+      expected: '2020-01-13T03:05:18+00:00',
+    },
+  ])(`'${dateToString}' formatted with basic format: '$format' should be correct`, ({ format, expected }) => {
+    const actual = sut(format, dateToString);
+    expect(actual).toBe(expected);
+  });
+
   it('should throw an error when format is empty', () => {
     expect(() => {
       sut('', dateToString);
