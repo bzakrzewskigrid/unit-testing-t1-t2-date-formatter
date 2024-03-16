@@ -117,4 +117,22 @@ describe('unitTestingTask test suite', () => {
     const actual = sut(format, dateToString);
     expect(actual).toBe(expected);
   });
+
+  it('should throw an error when format is empty', () => {
+    expect(() => {
+      sut('', dateToString);
+    }).toThrow('Argument `format` must be a string');
+  });
+
+  it('should throw an error when format is not string', () => {
+    expect(() => {
+      sut(123, dateToString);
+    }).toThrow('Argument `format` must be a string');
+  });
+
+  it('should throw an error when date is incorrect', () => {
+    expect(() => {
+      sut('YYYY', true);
+    }).toThrow('Argument `date` must be instance of Date or Unix Timestamp or ISODate String');
+  });
 });

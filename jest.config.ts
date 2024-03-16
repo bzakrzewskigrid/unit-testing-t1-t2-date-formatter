@@ -6,6 +6,11 @@ const baseTestDir = '<rootDir>/test';
 const config: Config.InitialOptions = {
   preset: 'ts-jest',
   testEnvironment: 'node',
+  globals: {
+    'ts-jest': {
+      isolatedModules: true,
+    },
+  },
   verbose: true,
   collectCoverage: true,
   collectCoverageFrom: [`${baseDir}/unitTestingTask.js`],
