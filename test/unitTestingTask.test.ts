@@ -3,14 +3,17 @@ import unitTestingTask from '../unitTestingTask';
 describe('unitTestingTask test suite', () => {
   let sut = unitTestingTask;
 
-  let date = new Date('2020-01-13');
-  date.setHours(15);
-  date.setMinutes(5);
-  date.setSeconds(18);
-  date.setMilliseconds(511);
+  let date: Date;
+  let dateToString: string;
 
-  console.log(date.getMilliseconds());
-  let dateToString = date.toString();
+  beforeEach(() => {
+    date = new Date('2020-01-13');
+    date.setHours(15);
+    date.setMinutes(5);
+    date.setSeconds(18);
+    date.setMilliseconds(511);
+    dateToString = date.toString();
+  });
 
   it.each([
     {
@@ -138,6 +141,33 @@ describe('unitTestingTask test suite', () => {
   ])(`'${dateToString}' formatted with basic format: '$format' should be correct`, ({ format, expected }) => {
     const actual = sut(format, dateToString);
     expect(actual).toBe(expected);
+  });
+
+  it('should return correctly formatted date when it it am', () => {
+    date.setHours(10);
+    dateToString = date.toString();
+    console.log(dateToString);
+    const actual = sut('A', dateToString);
+    expect(actual).toBe('AM');
+  });
+
+  // todo
+  it.skip('should format date correctly when language is changed', () => {
+    // sut._languages = {};
+    // sut.lang('en', '');
+    // sut.lang('be', '');
+
+    // console.log(sut);
+    // console.log(sut.lang);
+    const actual = sut('MMMM', dateToString);
+    expect(actual).toBe('TEST');
+  });
+
+  // todo
+  it('should format date with newly registered formatter', () => {
+    unitTestingTask.register('longDate', 'd MMMM');
+    const actual = sut('longDate', dateToString);
+    expect(actual).toBe('13 January');
   });
 
   it('should throw an error when format is empty', () => {
