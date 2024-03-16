@@ -6,14 +6,12 @@ describe('unitTestingTask test suite', () => {
   let date: Date;
   let dateToString: string;
 
-  beforeEach(() => {
-    date = new Date('2020-01-13');
-    date.setHours(15);
-    date.setMinutes(5);
-    date.setSeconds(18);
-    date.setMilliseconds(511);
-    dateToString = date.toString();
-  });
+  date = new Date('2020-01-13');
+  date.setHours(15);
+  date.setMinutes(5);
+  date.setSeconds(18);
+  date.setMilliseconds(511);
+  dateToString = date.toString();
 
   it.each([
     {
@@ -146,7 +144,6 @@ describe('unitTestingTask test suite', () => {
   it('should return correctly formatted date when it it am', () => {
     date.setHours(10);
     dateToString = date.toString();
-    console.log(dateToString);
     const actual = sut('A', dateToString);
     expect(actual).toBe('AM');
   });
