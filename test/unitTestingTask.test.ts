@@ -6,12 +6,14 @@ describe('unitTestingTask test suite', () => {
   let date: Date;
   let dateToString: string;
 
-  date = new Date('2020-01-13');
-  date.setHours(15);
-  date.setMinutes(5);
-  date.setSeconds(18);
-  date.setMilliseconds(511);
-  dateToString = date.toString();
+  beforeEach(() => {
+    date = new Date('2020-01-13');
+    date.setHours(15);
+    date.setMinutes(5);
+    date.setSeconds(18);
+    date.setMilliseconds(511);
+    dateToString = date.toString();
+  });
 
   it.each([
     { format: 'YYYY', expected: '2020' },
