@@ -67,17 +67,26 @@ describe('unitTestingTask test suite', () => {
 
   describe('correct values with additional setup', () => {
     it("should format date with newly registered format: ('longDate', 'd MMMM')", () => {
-      unitTestingTask.register('longDate', 'd MMMM');
-      const actual = sut('longDate', dateToString);
-      expect(actual).toBe('13 January');
-      expect(unitTestingTask.formatters().at(-1)).toBe('longDate');
+      jest.isolateModules(() => {
+        sut = require('../unitTestingTask.js');
+        sut.register('longDate', 'd MMMM');
+
+        const actual = sut('longDate', dateToString);
+        expect(actual).toBe('13 January');
+        expect(sut.formatters().at(-1)).toBe('longDate');
+      });
     });
 
     it("should format date with another newly registered format: ('longDate', 'd MMMM')", () => {
-      unitTestingTask.register('someFormat', 'd MM YY');
-      const actual = sut('someFormat', dateToString);
-      expect(actual).toBe('13 01 20');
-      expect(unitTestingTask.formatters().at(-1)).toBe('someFormat');
+      jest.isolateModules(() => {
+        sut = require('../unitTestingTask.js');
+        sut.register('someFormat', 'd MM YY');
+
+        const actual = sut('someFormat', dateToString);
+        expect(actual).toBe('13 01 20');
+        expect(sut.formatters().at(-1)).toBe('someFormat');
+        expect(sut.formatters()).toHaveLength(5);
+      });
     });
 
     // todo
