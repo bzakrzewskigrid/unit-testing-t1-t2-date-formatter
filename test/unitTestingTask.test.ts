@@ -39,7 +39,7 @@ describe('unitTestingTask test suite', () => {
     { format: 'a', expected: 'pm' },
     { format: 'ZZ', expected: '+0000' },
     { format: 'Z', expected: '+00:00' },
-  ])(`'${dateToString}' formatted with allowed format: '$format' should be correct`, ({ format, expected }) => {
+  ])(`should handle format: '$format'`, ({ format, expected }) => {
     const actual = sut(format, dateToString);
     expect(actual).toBe(expected);
   });
@@ -49,12 +49,12 @@ describe('unitTestingTask test suite', () => {
     { format: 'ISOTime', expected: '03:05:18' },
     { format: 'ISODateTime', expected: '2020-01-13T03:05:18' },
     { format: 'ISODateTimeTZ', expected: '2020-01-13T03:05:18+00:00' },
-  ])(`'${dateToString}' formatted with basic format: '$format' should be correct`, ({ format, expected }) => {
+  ])(`should handle basic format: '$format'`, ({ format, expected }) => {
     const actual = sut(format, dateToString);
     expect(actual).toBe(expected);
   });
 
-  it('should return correctly formatted date when it it am', () => {
+  it('should handle AM date', () => {
     date.setHours(10);
     dateToString = date.toString();
     const actual = sut('A', dateToString);
