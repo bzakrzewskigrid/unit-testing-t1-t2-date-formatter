@@ -75,11 +75,18 @@ describe('unitTestingTask test suite', () => {
     expect(actual).toBe('TEST');
   });
 
-  // todo
-  it('should format date with newly registered formatter', () => {
+  it("should format date with newly registered format: ('longDate', 'd MMMM')", () => {
     unitTestingTask.register('longDate', 'd MMMM');
     const actual = sut('longDate', dateToString);
     expect(actual).toBe('13 January');
+    expect(unitTestingTask.formatters().at(-1)).toBe('longDate');
+  });
+
+  it("should format date with another newly registered format: ('longDate', 'd MMMM')", () => {
+    unitTestingTask.register('someFormat', 'd MM YY');
+    const actual = sut('someFormat', dateToString);
+    expect(actual).toBe('13 01 20');
+    expect(unitTestingTask.formatters().at(-1)).toBe('someFormat');
   });
 
   it('should throw an error when format is empty', () => {
