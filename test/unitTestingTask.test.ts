@@ -17,33 +17,33 @@ describe('unitTestingTask test suite', () => {
 
   describe('correct values', () => {
     it.each([
-      { format: 'YYYY', expected: '2020' },
-      { format: 'YY', expected: '20' },
-      { format: 'MMMM', expected: 'January' },
-      { format: 'MMM', expected: 'Jan' },
-      { format: 'MM', expected: '01' },
-      { format: 'M', expected: '1' },
-      { format: 'DDD', expected: 'Monday' },
-      { format: 'DD', expected: 'Mon' },
-      { format: 'D', expected: 'Mo' },
-      { format: 'dd', expected: '13' },
-      { format: 'd', expected: '13' },
-      { format: 'HH', expected: '15' },
-      { format: 'H', expected: '15' },
-      { format: 'hh', expected: '03' },
-      { format: 'h', expected: '3' },
-      { format: 'mm', expected: '05' },
-      { format: 'm', expected: '5' },
-      { format: 'ss', expected: '18' },
-      { format: 's', expected: '18' },
-      { format: 'ff', expected: '000' },
-      { format: 'f', expected: '0' },
-      { format: 'A', expected: 'PM' },
-      { format: 'a', expected: 'pm' },
-      { format: 'ZZ', expected: '+0000' },
-      { format: 'Z', expected: '+00:00' },
-    ])(`should handle format: '$format'`, ({ format, expected }) => {
-      const actual = sut(format, dateToString);
+      { token: 'YYYY', expected: '2020' },
+      { token: 'YY', expected: '20' },
+      { token: 'MMMM', expected: 'January' },
+      { token: 'MMM', expected: 'Jan' },
+      { token: 'MM', expected: '01' },
+      { token: 'M', expected: '1' },
+      { token: 'DDD', expected: 'Monday' },
+      { token: 'DD', expected: 'Mon' },
+      { token: 'D', expected: 'Mo' },
+      { token: 'dd', expected: '13' },
+      { token: 'd', expected: '13' },
+      { token: 'HH', expected: '15' },
+      { token: 'H', expected: '15' },
+      { token: 'hh', expected: '03' },
+      { token: 'h', expected: '3' },
+      { token: 'mm', expected: '05' },
+      { token: 'm', expected: '5' },
+      { token: 'ss', expected: '18' },
+      { token: 's', expected: '18' },
+      { token: 'ff', expected: '000' },
+      { token: 'f', expected: '0' },
+      { token: 'A', expected: 'PM' },
+      { token: 'a', expected: 'pm' },
+      { token: 'ZZ', expected: '+0000' },
+      { token: 'Z', expected: '+00:00' },
+    ])(`should handle token: '$token'`, ({ token, expected }) => {
+      const actual = sut(token, dateToString);
       expect(actual).toBe(expected);
     });
 
@@ -52,7 +52,7 @@ describe('unitTestingTask test suite', () => {
       { format: 'ISOTime', expected: '03:05:18' },
       { format: 'ISODateTime', expected: '2020-01-13T03:05:18' },
       { format: 'ISODateTimeTZ', expected: '2020-01-13T03:05:18+00:00' },
-    ])(`should handle basic format: '$format'`, ({ format, expected }) => {
+    ])(`should handle default formatter: '$format'`, ({ format, expected }) => {
       const actual = sut(format, dateToString);
       expect(actual).toBe(expected);
     });
