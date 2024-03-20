@@ -86,6 +86,15 @@ describe('unitTestingTask test suite', () => {
         expect(actual).toBe('styczeń');
       });
     });
+
+    it('should format date with default language when language is changed to the non-existing one', () => {
+      jest.isolateModules(() => {
+        sut.lang('123');
+
+        const actual = sut('MMMM', dateToString);
+        expect(actual).toBe('January');
+      });
+    });
   });
 
   describe('error handling', () => {
@@ -105,6 +114,16 @@ describe('unitTestingTask test suite', () => {
       expect(() => {
         sut('YYYY', true);
       }).toThrow('Argument `date` must be instance of Date or Unix Timestamp or ISODate String');
+    });
+
+    it('should throw an error when it formats with language without options defined', () => {
+      jest.isolateModules(() => {
+        sut.lang('pl');
+
+        expect(() => {
+          sut('MMMM', dateToString);
+        }).toThrow();
+      });
     });
   });
 });
