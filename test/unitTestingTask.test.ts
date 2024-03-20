@@ -6,9 +6,6 @@ describe('unitTestingTask test suite', () => {
   let date: Date;
   let dateToString: string;
 
-  let anotherDate: Date;
-  let anotherDateToString: string;
-
   beforeEach(() => {
     jest.isolateModules(() => {
       sut = require('../unitTestingTask');
@@ -16,9 +13,6 @@ describe('unitTestingTask test suite', () => {
 
     date = new Date('2020-11-16T15:12:43.511Z');
     dateToString = date.toString();
-
-    anotherDate = new Date('2020-01-03T09:05:07.511Z');
-    anotherDateToString = anotherDate.toString();
   });
 
   describe('correct values', () => {
@@ -69,7 +63,8 @@ describe('unitTestingTask test suite', () => {
       { token: 'A', expected: 'AM' },
       { token: 'a', expected: 'am' },
     ])(`should handle token: '$token' with zero padding`, ({ token, expected }) => {
-      const actual = sut(token, anotherDateToString);
+      const leadingZerosDate = new Date('2020-01-03T09:05:07.511Z').toString();
+      const actual = sut(token, leadingZerosDate);
       expect(actual).toBe(expected);
     });
 
