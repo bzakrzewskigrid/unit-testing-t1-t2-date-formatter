@@ -1,12 +1,16 @@
 import unitTestingTask from '../unitTestingTask';
 
 describe('unitTestingTask test suite', () => {
-  let sut = unitTestingTask;
+  let sut: unitTestingTask;
 
   let date: Date;
   let dateToString: string;
 
   beforeEach(() => {
+    jest.isolateModules(() => {
+      sut = require('../unitTestingTask');
+    });
+
     date = new Date('2020-01-13');
     date.setHours(15);
     date.setMinutes(5);
