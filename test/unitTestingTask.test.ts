@@ -11,11 +11,7 @@ describe('unitTestingTask test suite', () => {
       sut = require('../unitTestingTask');
     });
 
-    date = new Date('2020-01-13');
-    date.setHours(15);
-    date.setMinutes(5);
-    date.setSeconds(18);
-    date.setMilliseconds(511);
+    date = new Date('2020-01-13T15:05:18.511Z');
     dateToString = date.toString();
   });
 
