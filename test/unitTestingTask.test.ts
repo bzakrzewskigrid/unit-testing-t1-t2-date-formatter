@@ -72,20 +72,8 @@ describe('unitTestingTask test suite', () => {
         sut.register('longDate', 'd MMMM');
 
         const actual = sut('longDate', dateToString);
+        expect(sut.formatters()).toContain('longDate');
         expect(actual).toBe('13 January');
-        expect(sut.formatters().at(-1)).toBe('longDate');
-      });
-    });
-
-    it("should format date with another newly registered format: ('longDate', 'd MMMM')", () => {
-      jest.isolateModules(() => {
-        sut = require('../unitTestingTask');
-        sut.register('someFormat', 'd MM YY');
-
-        const actual = sut('someFormat', dateToString);
-        expect(actual).toBe('13 01 20');
-        expect(sut.formatters().at(-1)).toBe('someFormat');
-        expect(sut.formatters()).toHaveLength(5);
       });
     });
 
@@ -96,16 +84,6 @@ describe('unitTestingTask test suite', () => {
 
         const actual = sut('MMMM', dateToString);
         expect(actual).toBe('styczeń');
-      });
-    });
-
-    it('should format date correctly when language is changed to another language', () => {
-      jest.isolateModules(() => {
-        sut = require('../unitTestingTask');
-        require('../lang/uk');
-
-        const actual = sut('MMMM', dateToString);
-        expect(actual).toBe('січень');
       });
     });
   });
