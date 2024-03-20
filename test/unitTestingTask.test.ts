@@ -6,36 +6,42 @@ describe('unitTestingTask test suite', () => {
   let date: Date;
   let dateToString: string;
 
+  let anotherDate: Date;
+  let anotherDateToString: string;
+
   beforeEach(() => {
     jest.isolateModules(() => {
       sut = require('../unitTestingTask');
     });
 
-    date = new Date('2020-01-13T15:05:18.511Z');
+    date = new Date('2020-11-16T15:12:43.511Z');
     dateToString = date.toString();
+
+    anotherDate = new Date('2020-01-03T09:05:07.511Z');
+    anotherDateToString = anotherDate.toString();
   });
 
   describe('correct values', () => {
     it.each([
       { token: 'YYYY', expected: '2020' },
       { token: 'YY', expected: '20' },
-      { token: 'MMMM', expected: 'January' },
-      { token: 'MMM', expected: 'Jan' },
-      { token: 'MM', expected: '01' },
-      { token: 'M', expected: '1' },
+      { token: 'MMMM', expected: 'November' },
+      { token: 'MMM', expected: 'Nov' },
+      { token: 'MM', expected: '11' },
+      { token: 'M', expected: '11' },
       { token: 'DDD', expected: 'Monday' },
       { token: 'DD', expected: 'Mon' },
       { token: 'D', expected: 'Mo' },
-      { token: 'dd', expected: '13' },
-      { token: 'd', expected: '13' },
+      { token: 'dd', expected: '16' },
+      { token: 'd', expected: '16' },
       { token: 'HH', expected: '15' },
       { token: 'H', expected: '15' },
       { token: 'hh', expected: '03' },
       { token: 'h', expected: '3' },
-      { token: 'mm', expected: '05' },
-      { token: 'm', expected: '5' },
-      { token: 'ss', expected: '18' },
-      { token: 's', expected: '18' },
+      { token: 'mm', expected: '12' },
+      { token: 'm', expected: '12' },
+      { token: 'ss', expected: '43' },
+      { token: 's', expected: '43' },
       { token: 'ff', expected: '000' },
       { token: 'f', expected: '0' },
       { token: 'A', expected: 'PM' },
@@ -48,20 +54,34 @@ describe('unitTestingTask test suite', () => {
     });
 
     it.each([
-      { format: 'ISODate', expected: '2020-01-13' },
-      { format: 'ISOTime', expected: '03:05:18' },
-      { format: 'ISODateTime', expected: '2020-01-13T03:05:18' },
-      { format: 'ISODateTimeTZ', expected: '2020-01-13T03:05:18+00:00' },
-    ])(`should handle default formatter: '$format'`, ({ format, expected }) => {
-      const actual = sut(format, dateToString);
+      { token: 'MM', expected: '01' },
+      { token: 'M', expected: '1' },
+      { token: 'dd', expected: '03' },
+      { token: 'd', expected: '3' },
+      { token: 'HH', expected: '09' },
+      { token: 'H', expected: '9' },
+      { token: 'hh', expected: '09' },
+      { token: 'h', expected: '9' },
+      { token: 'mm', expected: '05' },
+      { token: 'm', expected: '5' },
+      { token: 'ss', expected: '07' },
+      { token: 's', expected: '7' },
+      { token: 'A', expected: 'AM' },
+      { token: 'a', expected: 'am' },
+    ])(`should handle token: '$token' with zero padding`, ({ token, expected }) => {
+      const actual = sut(token, anotherDateToString);
       expect(actual).toBe(expected);
     });
 
-    it('should handle AM date', () => {
-      date.setHours(10);
-      dateToString = date.toString();
-      const actual = sut('A', dateToString);
-      expect(actual).toBe('AM');
+    // 2020-11-16T15:12:43.511Z
+    it.each([
+      { format: 'ISODate', expected: '2020-11-16' },
+      { format: 'ISOTime', expected: '03:12:43' },
+      { format: 'ISODateTime', expected: '2020-11-16T03:12:43' },
+      { format: 'ISODateTimeTZ', expected: '2020-11-16T03:12:43+00:00' },
+    ])(`should handle default formatter: '$format'`, ({ format, expected }) => {
+      const actual = sut(format, dateToString);
+      expect(actual).toBe(expected);
     });
   });
 
@@ -73,7 +93,7 @@ describe('unitTestingTask test suite', () => {
 
         const actual = sut('longDate', dateToString);
         expect(sut.formatters()).toContain('longDate');
-        expect(actual).toBe('13 January');
+        expect(actual).toBe('16 November');
       });
     });
 
@@ -83,7 +103,7 @@ describe('unitTestingTask test suite', () => {
         require('../lang/pl');
 
         const actual = sut('MMMM', dateToString);
-        expect(actual).toBe('styczeń');
+        expect(actual).toBe('listopad');
       });
     });
 
@@ -92,7 +112,7 @@ describe('unitTestingTask test suite', () => {
         sut.lang('123');
 
         const actual = sut('MMMM', dateToString);
-        expect(actual).toBe('January');
+        expect(actual).toBe('November');
       });
     });
   });
