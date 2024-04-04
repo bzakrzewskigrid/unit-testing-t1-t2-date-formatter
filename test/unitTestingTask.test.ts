@@ -1,14 +1,14 @@
 import unitTestingTask from '../unitTestingTask';
 
 describe('unitTestingTask test suite', () => {
-  let sut: unitTestingTask;
+  let formatDate: unitTestingTask;
 
   let date: Date;
   let dateString: string;
 
   beforeEach(() => {
     jest.isolateModules(() => {
-      sut = require('../unitTestingTask');
+      formatDate = require('../unitTestingTask');
     });
 
     date = new Date('2020-11-16T15:12:43.511Z');
@@ -43,7 +43,7 @@ describe('unitTestingTask test suite', () => {
       { token: 'ZZ', expected: '+0000' },
       { token: 'Z', expected: '+00:00' },
     ])(`should handle token: '$token'`, ({ token, expected }) => {
-      const actual = sut(token, dateString);
+      const actual = formatDate(token, dateString);
       expect(actual).toBe(expected);
     });
 
@@ -64,7 +64,7 @@ describe('unitTestingTask test suite', () => {
       { token: 'a', expected: 'am' },
     ])(`should handle token: '$token' with zero padding`, ({ token, expected }) => {
       const leadingZerosDate = new Date('2020-01-03T09:05:07.511Z').toString();
-      const actual = sut(token, leadingZerosDate);
+      const actual = formatDate(token, leadingZerosDate);
       expect(actual).toBe(expected);
     });
 
@@ -75,7 +75,7 @@ describe('unitTestingTask test suite', () => {
       { format: 'ISODateTime', expected: '2020-11-16T03:12:43' },
       { format: 'ISODateTimeTZ', expected: '2020-11-16T03:12:43+00:00' },
     ])(`should handle default formatter: '$format'`, ({ format, expected }) => {
-      const actual = sut(format, dateString);
+      const actual = formatDate(format, dateString);
       expect(actual).toBe(expected);
     });
   });
@@ -83,30 +83,30 @@ describe('unitTestingTask test suite', () => {
   describe('correct values with additional setup', () => {
     it("should format date with newly registered format: ('longDate', 'd MMMM')", () => {
       jest.isolateModules(() => {
-        sut = require('../unitTestingTask');
-        sut.register('longDate', 'd MMMM');
+        formatDate = require('../unitTestingTask');
+        formatDate.register('longDate', 'd MMMM');
 
-        const actual = sut('longDate', dateString);
-        expect(sut.formatters()).toContain('longDate');
+        const actual = formatDate('longDate', dateString);
+        expect(formatDate.formatters()).toContain('longDate');
         expect(actual).toBe('16 November');
       });
     });
 
     it('should format date correctly when language is changed', () => {
       jest.isolateModules(() => {
-        sut = require('../unitTestingTask');
+        formatDate = require('../unitTestingTask');
         require('../lang/pl');
 
-        const actual = sut('MMMM', dateString);
+        const actual = formatDate('MMMM', dateString);
         expect(actual).toBe('listopad');
       });
     });
 
     it('should format date with default language when language is changed to the non-existing one', () => {
       jest.isolateModules(() => {
-        sut.lang('123');
+        formatDate.lang('123');
 
-        const actual = sut('MMMM', dateString);
+        const actual = formatDate('MMMM', dateString);
         expect(actual).toBe('November');
       });
     });
@@ -115,28 +115,28 @@ describe('unitTestingTask test suite', () => {
   describe('error handling', () => {
     it('should throw an error when format is empty', () => {
       expect(() => {
-        sut('', dateString);
+        formatDate('', dateString);
       }).toThrow('Argument `format` must be a string');
     });
 
     it('should throw an error when format is not string', () => {
       expect(() => {
-        sut(123, dateString);
+        formatDate(123, dateString);
       }).toThrow('Argument `format` must be a string');
     });
 
     it('should throw an error when date is incorrect', () => {
       expect(() => {
-        sut('YYYY', true);
+        formatDate('YYYY', true);
       }).toThrow('Argument `date` must be instance of Date or Unix Timestamp or ISODate String');
     });
 
     it('should throw an error when it formats with language without options defined', () => {
       jest.isolateModules(() => {
-        sut.lang('pl');
+        formatDate.lang('pl');
 
         expect(() => {
-          sut('MMMM', dateString);
+          formatDate('MMMM', dateString);
         }).toThrow();
       });
     });
