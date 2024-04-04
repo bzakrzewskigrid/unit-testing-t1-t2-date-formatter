@@ -4,7 +4,7 @@ describe('unitTestingTask test suite', () => {
   let sut: unitTestingTask;
 
   let date: Date;
-  let dateToString: string;
+  let dateString: string;
 
   beforeEach(() => {
     jest.isolateModules(() => {
@@ -12,7 +12,7 @@ describe('unitTestingTask test suite', () => {
     });
 
     date = new Date('2020-11-16T15:12:43.511Z');
-    dateToString = date.toString();
+    dateString = date.toString();
   });
 
   describe('correct values', () => {
@@ -43,7 +43,7 @@ describe('unitTestingTask test suite', () => {
       { token: 'ZZ', expected: '+0000' },
       { token: 'Z', expected: '+00:00' },
     ])(`should handle token: '$token'`, ({ token, expected }) => {
-      const actual = sut(token, dateToString);
+      const actual = sut(token, dateString);
       expect(actual).toBe(expected);
     });
 
@@ -75,7 +75,7 @@ describe('unitTestingTask test suite', () => {
       { format: 'ISODateTime', expected: '2020-11-16T03:12:43' },
       { format: 'ISODateTimeTZ', expected: '2020-11-16T03:12:43+00:00' },
     ])(`should handle default formatter: '$format'`, ({ format, expected }) => {
-      const actual = sut(format, dateToString);
+      const actual = sut(format, dateString);
       expect(actual).toBe(expected);
     });
   });
@@ -86,7 +86,7 @@ describe('unitTestingTask test suite', () => {
         sut = require('../unitTestingTask');
         sut.register('longDate', 'd MMMM');
 
-        const actual = sut('longDate', dateToString);
+        const actual = sut('longDate', dateString);
         expect(sut.formatters()).toContain('longDate');
         expect(actual).toBe('16 November');
       });
@@ -97,7 +97,7 @@ describe('unitTestingTask test suite', () => {
         sut = require('../unitTestingTask');
         require('../lang/pl');
 
-        const actual = sut('MMMM', dateToString);
+        const actual = sut('MMMM', dateString);
         expect(actual).toBe('listopad');
       });
     });
@@ -106,7 +106,7 @@ describe('unitTestingTask test suite', () => {
       jest.isolateModules(() => {
         sut.lang('123');
 
-        const actual = sut('MMMM', dateToString);
+        const actual = sut('MMMM', dateString);
         expect(actual).toBe('November');
       });
     });
@@ -115,13 +115,13 @@ describe('unitTestingTask test suite', () => {
   describe('error handling', () => {
     it('should throw an error when format is empty', () => {
       expect(() => {
-        sut('', dateToString);
+        sut('', dateString);
       }).toThrow('Argument `format` must be a string');
     });
 
     it('should throw an error when format is not string', () => {
       expect(() => {
-        sut(123, dateToString);
+        sut(123, dateString);
       }).toThrow('Argument `format` must be a string');
     });
 
@@ -136,7 +136,7 @@ describe('unitTestingTask test suite', () => {
         sut.lang('pl');
 
         expect(() => {
-          sut('MMMM', dateToString);
+          sut('MMMM', dateString);
         }).toThrow();
       });
     });
